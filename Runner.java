@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
                // "src/test/Feature/"
         } ,
         glue = "stepDef" ,
-        tags = "@assignment004",
+    //    tags = "@assignment004",
         plugin = {
                 "pretty",
                 "json:target/cucumber-report/cucumber.json",
