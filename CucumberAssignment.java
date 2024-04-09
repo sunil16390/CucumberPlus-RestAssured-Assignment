@@ -135,28 +135,21 @@ public class CucumberAssignment {
 
     @Then("user capture all currency then prints")
     public void user_capture_all_currency_then_prints() {
-        xml_path_obj = new XmlPath(response.getBody().asString()).using(xmlPathConfig().namespaceAware(false));
-       // String r_category = xml_path_obj.getString("wsdl:definitions.wsdl:types.s:schema.s:simpleType.s:restriction.s:enumeration.@value"); // @ before category as '=' sign
-      //  System.out.println(r_category);
+       ArrayList<String> currenciesNodes = RestAssured.given().when().contentType("application/xml")
+                .get(Baseurl).then().extract().path("definitions.types.schema.simpleType.find{it.@name=='Currencies'}.restriction.enumeration.@value");
 
-        ///wsdl:definitions/wsdl:types/s:schema/s:simpleType/s:restriction/s:enumeration
-        ///wsdl:definitions/wsdl:types/s:schema/s:simpleType/s:restriction/s:enumeration/@value
-        ///wsdl:definitions/wsdl:types/s:schema/s:simpleType/s:restriction/s:enumeration[100]
-        ///wsdl:definitions/wsdl:types/s:schema/s:simpleType/s:restriction/s:enumeration[100]/@value
-
-        xml_path_obj = new XmlPath(response.getBody().asString()).using(xmlPathConfig().namespaceAware(false));
-        ArrayList<String> currencies = new ArrayList<>();
-        int allCurrenciesCount = xml_path_obj.get("wsdl:types.s:schema.@elementFormDefault.size()");
-        for(int i=0; i<allCurrenciesCount; i++)
-        {
-            //currencies.add(xml_path_obj.getString("bookstore.book["+i+"].author"));
+        for (String currency : currenciesNodes) {
+            System.out.println(currency + "\n");
         }
-        // String r_author = xml_path_obj.getString("bookstore.book[1].author");
-       // System.out.println(author.toString());
     }
     @Then("also capture all forwardTypes then prints")
     public void also_capture_all_forward_types_then_prints() {
+        ArrayList<String> forwardTypesNodes = RestAssured.given().when().contentType("application/xml")
+                .get(Baseurl).then().extract().path("definitions.types.schema.simpleType.find{it.@name=='ForwardTypes'}.restriction.enumeration.@value");
 
+        for (String forwardType : forwardTypesNodes) {
+            System.out.println(forwardType + "\n");
+        }
     }
     @Then("validate total outcomeType count is {string} and {string} is one of them")
     public void validate_total_outcome_type_count_is_and_is_one_of_them(String string, String string2) {
