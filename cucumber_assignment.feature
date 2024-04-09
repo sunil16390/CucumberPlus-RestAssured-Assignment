@@ -57,5 +57,5 @@ Feature: Validate end to end scenarios for Cucumber plus Rest Assured assignment
 
 
     Examples:
-      |url|status|id|mobileName|
+      |url|status|count|outcomeType|
       |https://www.xignite.com/xcurrencies.asmx?wsdl|200|4|SystemError|
