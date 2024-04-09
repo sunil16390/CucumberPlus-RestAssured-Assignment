@@ -152,8 +152,20 @@ public class CucumberAssignment {
         }
     }
     @Then("validate total outcomeType count is {string} and {string} is one of them")
-    public void validate_total_outcome_type_count_is_and_is_one_of_them(String string, String string2) {
+    public void validate_total_outcome_type_count_is_and_is_one_of_them(String expectedSizeOfOutcomeType, String expectedOutcomeType) {
+        ArrayList<String> outcomeTypesNodes = RestAssured.given().when().contentType("application/xml")
+                .get(Baseurl).then().extract().path("definitions.types.schema.simpleType.find{it.@name=='OutcomeTypes'}.restriction.enumeration.@value");
 
+        Assert.assertEquals(String.valueOf(outcomeTypesNodes.size()), expectedSizeOfOutcomeType);
+
+        for (String outcomeTypes : outcomeTypesNodes) {
+            if(outcomeTypes.equals(expectedOutcomeType))
+            {
+                System.out.println(outcomeTypes + "is one of them");
+                Assert.assertEquals(outcomeTypes,expectedOutcomeType);
+            }
+        }
     }
+    //for output run this C:\Cucumber_Maven>mvn clean test -Dcucumber.filter.tags="@assignment004"
 }
 
